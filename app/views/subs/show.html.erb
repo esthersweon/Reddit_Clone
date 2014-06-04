@@ -1,0 +1,16 @@
+<h1><%= @sub.title %></h1>
+
+<ul>
+	<li><strong>Description: </strong><br><%= @sub.description %></li>
+	<li><strong>Moderator: </strong><br><%= User.find(@sub.moderator_id).username %></li>
+</ul>
+
+<ul>
+	<% @posts.each do |post| %>
+		<%= post.title %>
+		<%= post.url %>
+		<%= post.content %>
+	<% end %>
+</ul>
+
+<%= link_to "All Subs", subs_url %>
