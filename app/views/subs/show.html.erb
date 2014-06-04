@@ -1,16 +1,16 @@
 <h1><%= @sub.title %></h1>
 
-<ul>
-	<li><strong>Description: </strong><br><%= @sub.description %></li>
-	<li><strong>Moderator: </strong><br><%= User.find(@sub.moderator_id).username %></li>
-</ul>
+<li><strong>Description: </strong><%= @sub.description %></li>
+<li><strong>Moderator: </strong><%= User.find(@sub.moderator_id).username %></li>
 
-<ul>
-	<% @posts.each do |post| %>
-		<%= post.title %>
-		<%= post.url %>
-		<%= post.content %>
-	<% end %>
-</ul>
+<% @sub.posts.each do |post| %>
+	<ul>
+		<li><%= post.title %></li>
+		<li><%= post.url %></li>
+		<li><%= post.content %></li>
+	</ul>
+<% end %>
 
+<br>
+<%= link_to "Create Post", new_sub_post_url(@sub) %><br>
 <%= link_to "All Subs", subs_url %>
