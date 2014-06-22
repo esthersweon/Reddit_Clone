@@ -1,7 +1,11 @@
-<h1><%= @sub.title %> | <%= link_to "Submit Post", new_post_url %></h1>
+<h1><%= @sub.title %></h1>
 
+<ul>
 <% @sub.posts.each do |post| %>
-  <%= link_to post.title, post %><br>
+  <li><%= link_to post.title, post %></li>
 <% end %>
+</ul>
+<br>
 
+<%= link_to "Submit Post", new_post_url %><br>
 <%= link_to "Back to SubReddits", subs_url %>
