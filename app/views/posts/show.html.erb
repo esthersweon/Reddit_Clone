@@ -4,46 +4,17 @@
 <em>submitted by <%= User.find(@post.user_id).username %></em>
 <br><br>
 
-<h3>Comments on <%= @post.title %></h3>
-<form action="<%= post_comments_url(@post) %>" method="POST">
-	<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
-	<textarea rows="3" cols="30" 
-	placeholder="Add a Comment"
-	name="comment[content]"></textarea>
-	<input type="hidden" name="comment[submitter_id]" value="<%= current_user.id%>">
-	<input type="hidden" name="comment[post_id]" value="<%= @post.id%>"><br>
-	<input type="submit" value="Submit">
-</form>
+<%= render "comment", parent_comment_id: nil, message: "What do you think?" %>
 
+<h3>Comments on <%= @post.title %></h3>
 <ul>
   <% comments_by_parent = @post.comments_by_parent %>
   <% comments_by_parent[nil].each do |parent_comment| %>
     <li>
-      <%= parent_comment.content %><br>
-      <em> submitted by <%= User.find(parent_comment.submitter_id).username %></em><br>
-      <%= render "comment", parent_comment: parent_comment %>
-
-      <br>
-			<ul>
-				<% parent_comment.child_comments.each do |child_comment| %>
-					<li><%= child_comment.content %><br>
-					<em> submitted by <%= User.find(child_comment.submitter_id).username %></em><br>
-					<%= render "comment", parent_comment: child_comment %>
-					<br>
-					<ul>
-						<% child_comment.child_comments.each do |grand| %>
-							<li><%= grand.content %><br>
-							<em> submitted by <%= User.find(grand.submitter_id).username %></em><br>
-						<% end %>
-					</ul>
-					</li>
-					<br>
-				<% end %> 
-			</ul>
+    <%= comment_partial(parent_comment, comments_by_parent) %>
     </li>
-    <br>
   <% end %>
 </ul>
 
-<br><br>
+<br>
 <%= link_to "Back to Subs", subs_url%>

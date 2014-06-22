@@ -1,7 +1,7 @@
 <form action="<%= post_comments_url(@post) %>" method="POST">
   <input type="hidden" name="authenticity_token" id="" value="<%= form_authenticity_token %>" />
-  <textarea name="comment[content]" placeholder="Reply to This Comment"></textarea><br>
+  <textarea name="comment[content]" placeholder="<%= message %>"></textarea><br>
   <input type="submit">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-<input type="hidden" name="comment[parent_comment_id]" value="<%= parent_comment.id %>">
+<input type="hidden" name="comment[parent_comment_id]" value="<%= parent_comment_id %>">
 </form>

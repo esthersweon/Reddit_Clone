@@ -1,7 +1,7 @@
-<%= @comment.content %> by <%= @comment.user.name %><br><br>
+<%= @comment.content %> by <%= User.find(@comment.submitter_id).username %><br><br>
 
 Reply to this comment:
-<form action="<%= link_comments_url(params[:link_id]) %>" method="POST">
+<form action="<%= post_comments_url(params[:post_id]) %>" method="POST">
   <textarea name="comment[content]"></textarea><br>
   <input type="submit">
   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">

@@ -1,9 +1,10 @@
-<p>
-  <%= link_to comment.content, post_comment_url(comment.post.id, comment.id) %>
-</p>
+<%= comment.content %>
+
+<%= render "comment", parent_comment_id: comment.id, message: "Reply to This Comment" %>
 
 <ul>
   <% comments_by_parent[comment.id].each do |child_comment| %>
-    <li><%= comment_partial(child_comment, comments_by_parent) %></li>
+    <li><%= comment_partial(child_comment, comments_by_parent) %>
+    </li>
   <% end %>
 </ul>
