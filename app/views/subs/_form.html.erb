@@ -1,0 +1,24 @@
+<% if new_sub %>
+  <% action_url = subs_url %>
+<% else %>
+  <% action_url = sub_url(sub) %>
+<% end %>
+
+<form action="<%= action_url %>" method="POST">
+  Sub Title: <input name="sub[title]" value="<%= sub.title %>"><br>
+
+  <% if new_sub %>
+    <h2>Submit up to 5 posts!</h2>
+
+    <% sub.posts.each.with_index do |post, index| %>
+      URL: <input name="posts[<%= index %>][url]" value="<%= post.url %>"><br>
+      Title: <input name="posts[<%= index %>][title]" value="<%= post.title %>"><br>
+      Content: <input name="posts[<%= index %>][content]" value="<%= post.content %>"><br><br>
+    <% end %>
+
+  <% else %>
+      <input type="hidden" name="_method" value="PUT">
+  <% end %>
+    <input type="submit" value="Submit">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+</form>

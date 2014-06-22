@@ -1,0 +1,23 @@
+<% if new_post %>
+  <% action_url = posts_url %>
+<% else %>
+  <% action_url = post_url(post) %>
+<% end %>
+
+<form action="<%= action_url %>" method="POST">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  URL: <input name="post[url]" value="<%= post.url %>"><br>
+  Title: <input name="post[title]" value="<%= post.title %>"><br>
+  Body: <input name="post[content]" value="<%= post.content %>"><br><br>
+
+  <% subs.each do |sub| %>
+    <input type="checkbox" name="post[sub_ids][]" value="<%= sub.id %>" <%= "checked".html_safe if post.sub_ids.include?(sub.id) %>>
+    <%= sub.title %><br>
+  <% end %>
+
+  <% unless new_post %>
+    <input type="hidden" name="_method" value="PUT">
+  <% end %>
+
+  <input type="Submit" value="Create Post">
+</form>

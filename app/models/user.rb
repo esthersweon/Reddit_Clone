@@ -11,13 +11,20 @@
 #
 
 class User < ActiveRecord::Base
+  attr_reader :password
+
   before_validation :ensure_session_token
   validates :username, :password_digest, :session_token, presence: true
+  validates :password, length: { minimum: 6, allow_nil: true }
 
-  has_many :comments, 
-  class_name: "Comment", 
-  foreign_key: :submitter_id, 
-  primary_key: :id
+  has_many :comments, inverse_of: :user
+  has_many :posts, inverse_of: :user
+
+  has_many :subs,
+  class_name: "Sub", 
+  foreign_key: :moderator_id, 
+  primary_key: :id, 
+  inverse_of: :moderator
 
   def self.find_by_credentials(username, password)
     user = User.find_by_username(username)

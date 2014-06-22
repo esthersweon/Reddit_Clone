@@ -6,18 +6,26 @@
 #  title      :string(255)      not null
 #  url        :string(255)      not null
 #  content    :string(255)      not null
-#  sub_id     :integer          not null
 #  user_id    :integer          not null
 #  created_at :datetime
 #  updated_at :datetime
 #
 
 class Post < ActiveRecord::Base
-	validates :title, :url, :content, :sub_id, :user_id, presence: true
-	belongs_to :sub
-	belongs_to :user
+	validates :title, :url, :content, :user, presence: true
 
-	has_many :comments
+	belongs_to :user, inverse_of: :posts
+
+	has_many :post_subs, 
+	class_name: "PostSub",
+	foreign_key: :post_id, 
+	primary_key: :id, 
+	inverse_of: :post, 
+	dependent: :destroy
+
+	has_many :subs, through: :post_subs, source: :sub
+
+	has_many :comments, inverse_of: :post
 
 	def comments_by_parent
 		comments_by_parent = Hash.new {|hash, key| hash[key] = []}

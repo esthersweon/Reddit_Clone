@@ -17,12 +17,18 @@ class Comment < ActiveRecord::Base
 	belongs_to :submitter, 
 	class_name: "User", 
 	foreign_key: :submitter_id, 
-	primary_key: :id
+	primary_key: :id, 
+	inverse_of: :comments
 
-	belongs_to :post
+	belongs_to :post, inverse_of: :comments
 
 	has_many :child_comments, 
 	class_name: "Comment", 
+	foreign_key: :parent_comment_id, 
+	primary_key: :id
+
+	belongs_to :parent_comment, 
+	class_name: "Comment",
 	foreign_key: :parent_comment_id, 
 	primary_key: :id
 end
