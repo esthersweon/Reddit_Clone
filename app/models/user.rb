@@ -14,6 +14,11 @@ class User < ActiveRecord::Base
   before_validation :ensure_session_token
   validates :username, :password_digest, :session_token, presence: true
 
+  has_many :comments, 
+  class_name: "Comment", 
+  foreign_key: :submitter_id, 
+  primary_key: :id
+
   def self.find_by_credentials(username, password)
     user = User.find_by_username(username)
     return nil if user.nil?

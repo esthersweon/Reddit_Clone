@@ -13,6 +13,7 @@ class SubsController < ApplicationController
 
 	def show
 		@sub = Sub.find(params[:id])
+		@moderator = User.find(@sub.moderator_id)
 		render :show
 	end
 
@@ -20,11 +21,39 @@ class SubsController < ApplicationController
 		@sub = Sub.new(sub_params)
 
 		if @sub.save
-			redirect_to subs_url
+			redirect_to sub_url(@sub)
 		else
 			flash.now[:errors] = @sub.errors.full_messages
 			render :new
 		end
+	end
+
+	def edit
+		@sub = Sub.find(params[:id])
+
+		if @sub
+			render :edit
+		else
+			flash.now[:errors] = @sub.errors.full_messages
+			render :show
+		end
+	end
+
+	def update
+		@sub = Sub.find(params[:id])
+
+		if @sub.update_attributes(sub_params)
+			redirect_to sub_url(@sub)
+		else
+			flash.now[:errors] = @sub.errors.full_messages
+			render :edit
+		end
+	end
+
+	def destroy
+		@sub = Sub.find(params[:id])
+		@sub.destroy
+		redirect_to subs_url
 	end
 
 	private

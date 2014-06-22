@@ -1,0 +1,44 @@
+<h1><%= @post.title %></h1>
+<a href="http://<%= @post.url %>">
+<%= @post.content %></a>
+<br><br>
+
+<ul>
+	<% comments_by_parent = @post.comments_by_parent %>
+	<% comments_by_parent[nil].each do |parent_comment| %>
+		<li>
+		Submitted by <%= User.find(parent_comment.submitter_id).username %><br>
+		<%= parent_comment.content %>
+		<br><br>
+		Respond to This Comment:
+		<form action="<%= post_comments_url(@post) %>" method="POST">
+
+		<input type="hidden" name="comment[parent_comment_id]" value="<%= parent_comment.id%>">
+
+		<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+
+		<textarea rows="4" cols="30" 
+		name="comment[content]"></textarea>
+
+		<input type="hidden" name="comment[submitter_id]" value="<%= current_user.id%>">
+
+		<input type="hidden" name="comment[post_id]" value="<%= @post.id%>"><br>
+
+		<input type="submit" value="Submit">
+		</form>
+
+		<ul>
+			<% parent_comment.child_comments.each do |child| %>
+				<li><%= child.content %></li>
+			<% end %>
+		</ul>
+
+		</li><br>
+	<% end %>
+</ul>
+
+Add a Comment:
+<%= render "comment" %>
+
+<br>
+<a href="<%= sub_url(@post.sub_id) %>" >Back to <%= @sub.title %> Sub</a>

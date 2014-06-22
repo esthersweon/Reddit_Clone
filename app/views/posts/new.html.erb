@@ -5,15 +5,18 @@
 
 	<label> Title
 	  <input type="text" name="post[title]">
-  </label>
+	</label>
+	<br>
 
-  <label> URL
+	<label> URL (must start with "www")
 	  <input type="text" name="[post][url]">
-  </label>
+	</label>
+	<br>
 
     <label> Content
 	  <input type="text" name="[post][content]">
-  </label>
+ 	</label>
+ 	<br><br>
 
 	<input type="hidden" name="post[sub_id]" value="<%= @sub.id%>">
 	<input type="hidden" name="post[user_id]" value="<%= current_user.id%>">

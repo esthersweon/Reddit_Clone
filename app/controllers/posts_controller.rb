@@ -5,9 +5,15 @@ class PostsController < ApplicationController
 		render :new
 	end
 
+	def show
+		@post = Post.find(params[:id])
+		@sub = Sub.find(@post.sub_id)
+		render :show
+	end
+
 	def create
 		@sub = Sub.find(params[:sub_id])
-		@post = Post.new(post_params)
+		@post = @sub.posts.new(post_params)
 
 		if @post.save
 			redirect_to sub_url(@sub)

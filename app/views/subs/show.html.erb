@@ -1,16 +1,28 @@
-<h1><%= @sub.title %></h1>
+<h1><%= @sub.title %>
+	<% if current_user == @moderator %>
+		<form action="<%= sub_url %>" method="POST">
+			<input type="hidden" name="_method" value="DELETE">
+			<input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>">
+			<input type="submit" value="Delete">
+		</form>
+	<% end %>
+</h1>
 
-<li><strong>Description: </strong><%= @sub.description %></li>
-<li><strong>Moderator: </strong><%= User.find(@sub.moderator_id).username %></li>
+<b>Description: </b><%= @sub.description %><br>
+<b>Moderator: </b><%= User.find(@sub.moderator_id).username %>
 
-<% @sub.posts.each do |post| %>
-	<ul>
-		<li><%= post.title %></li>
-		<li><%= post.url %></li>
-		<li><%= post.content %></li>
-	</ul>
-<% end %>
+<ul>
+	<% @sub.posts.each do |post| %>
+		<li>
+		<a href="<%= post_url(post) %>"><%= post.title %></a>
+		</li>
+	<% end %>
+</ul>
 
 <br>
+<% if current_user == @moderator %>
+	<%= link_to "Edit Sub", edit_sub_url(@sub) %><br>
+<% end %>
+
 <%= link_to "Create Post", new_sub_post_url(@sub) %><br>
 <%= link_to "All Subs", subs_url %>
