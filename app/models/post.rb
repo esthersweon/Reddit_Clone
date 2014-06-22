@@ -27,6 +27,8 @@ class Post < ActiveRecord::Base
 
 	has_many :comments, inverse_of: :post
 
+	has_many :votes, as: :votable
+
 	def comments_by_parent
 		comments_by_parent = Hash.new {|hash, key| hash[key] = []}
 

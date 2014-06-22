@@ -39,7 +39,7 @@ class SubsController < ApplicationController
 	end
 
 	def edit
-		# @sub = Sub.find(params[:id])
+		@sub = Sub.find(params[:id])
 		render :edit
 	end
 
@@ -54,16 +54,11 @@ class SubsController < ApplicationController
 		end
 	end
 
-	def destroy
-		@sub = Sub.find(params[:id])
-		@sub.destroy
-		redirect_to subs_url
-	end
-
 	private
 
 	def user_owns_sub?
-    	redirect_to subs_url unless @sub.moderator == current_user
+		@sub = Sub.find(params[:id])
+    	redirect_to sub_url(@sub) unless @sub.moderator == current_user
   	end
 
 	def sub_params

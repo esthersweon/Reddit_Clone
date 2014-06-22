@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
 
   has_many :comments, inverse_of: :user
   has_many :posts, inverse_of: :user
+  has_many :votes, inverse_of: :user
 
   has_many :subs,
   class_name: "Sub", 
